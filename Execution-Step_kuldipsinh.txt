@@ -1,0 +1,75 @@
+Execution-Step_kuldipsinh
+
+Objective:
+Run complete end-to-end pipeline from baseline evaluation to DAPO training outputs and presentation files.
+
+Step 0: Open project folder
+- Path: /Users/kuldeepsinh/Desktop/LAB_VI/RLVR
+
+Step 1: Run RLVR baseline workflow
+Primary file:
+- RLVR.ipynb
+
+Execution sequence:
+1. Open RLVR.ipynb in Google Colab or Jupyter.
+2. Run dependency/install cells.
+3. Run model loading and evaluation setup cells.
+4. Run benchmark evaluation pipeline on the six datasets:
+   - MATH500
+   - AMC23 (x8)
+   - OlympiadBench
+   - Minerva Math
+   - AIME24 (x8)
+   - AIME25 (x8)
+5. Save/record baseline numbers (expected around report values):
+   MATH500 73.0, AMC23x8 50.9, OlympiadBench 33.8, Minerva 27.9, AIME24x8 12.5, AIME25x8 5.0
+
+Step 2: Run DAPO implementation and training
+Primary file:
+- DeePO_DAPO.ipynb
+
+Execution sequence:
+1. Open DeePO_DAPO.ipynb.
+2. Run install dependencies cell (trl, peft, bitsandbytes, datasets, accelerate, matplotlib, huggingface_hub).
+3. Run imports and seed setup cells.
+4. Run configuration cell and verify key settings:
+   - MODEL_NAME = Qwen/Qwen2.5-Math-1.5B
+   - TRAIN_STEPS = 200
+   - GROUP_SIZE = 4
+   - EPSILON = 0.28
+   - KL_BETA = 0.04
+   - TRAIN_SIZE = 500
+5. Run dataset preparation cells.
+6. Run reward function and trainer setup cells.
+7. Start training and complete all steps.
+8. Save adapters to /content/dapo_model and merged model to /content/dapo_model_merged.
+9. Download/export generated artifacts to local project structure:
+   - results_from_colab/depo model/
+   - results_from_colab/merge model/
+
+Step 3: (Optional) Re-run/continue evaluation
+- Use merged model outputs and benchmark scripts to evaluate DAPO model against RLVR baseline.
+- If Colab runtime interrupts, restart and resume from saved model artifacts.
+
+Step 4: Generate project presentation files
+Option A (original deck):
+- Run: python3 generate_ppt.py
+- Output: RLVR_DAPO_Project_Presentation.pptx
+
+Option B (enhanced deck):
+- Run: python3 generate_ppt_enhanced.py
+- Output: RLVR_DAPO_Project_Presentation_Enhanced.pptx
+
+Step 5: Final report and deliverables check
+1. Verify DAPO_Implementation_Report.md is up to date.
+2. Verify both PPT files open correctly.
+3. Verify required submission files exist:
+   - ReadMe_kuldipsinh.txt
+   - Execution-Step_kuldipsinh.txt
+   - Dataset_kuldipsinh.txt
+
+Expected Final Outputs Mentioned in Presentation:
+- RLVR reproduced benchmark metrics
+- DAPO training completion (200 steps) with training-loss trend
+- Adapter and merged model artifacts in results_from_colab
+- Final project presentations (original + enhanced)

@@ -1,0 +1,52 @@
+Dataset_kuldipsinh
+
+Project: Improving Mathematical Reasoning in LLMs: RLVR to DAPO
+
+Datasets and Links:
+1) GSM8K
+- Link: https://huggingface.co/datasets/gsm8k
+- Usage in project: Used for DAPO training subset preparation in DeePO_DAPO.ipynb.
+
+2) MATH (competition_math)
+- Link: https://huggingface.co/datasets/hendrycks/competition_math
+- Usage in project: Used for DAPO training subset preparation in DeePO_DAPO.ipynb.
+
+3) Evaluation Benchmarks used in RLVR/DAPO evaluation protocol
+- MATH500 subset (from MATH benchmark protocol)
+- AMC23 (x8 sampling)
+- AIME24 (x8 sampling)
+- AIME25 (x8 sampling)
+- Minerva Math
+- OlympiadBench
+- These are used in RLVR.ipynb evaluation pipeline and referenced in DAPO_Implementation_Report.md.
+
+Where datasets are imported in code:
+- File: DeePO_DAPO.ipynb
+- Dataset loading uses Hugging Face datasets API (import line includes):
+  from datasets import load_dataset, Dataset
+- Typical loading logic in notebook uses load_dataset(...) for GSM8K and MATH data sources.
+
+How dataset is used (full or partial):
+- Training data is PARTIAL, not full dataset.
+- A mixed subset of total 500 examples is created from GSM8K + MATH for practical training on Colab T4.
+- Hyperparameter reference from project report:
+  - TRAIN_SIZE = 500
+  - GROUP_SIZE = 4
+  - TRAIN_STEPS = 200
+
+Training task formulation:
+- Task type: Mathematical reasoning / answer generation with verifier-based reward.
+- Prompt format: Math question + system prompt asking step-by-step reasoning and final answer in \boxed{}.
+- Reward design:
+  - Correct boxed answer: +1.0
+  - Wrong answer: 0.0
+  - No answer extracted: -0.1
+  - Format bonus: +0.05
+  - Overlong penalty: up to -0.3 for responses longer than threshold.
+
+Evaluation protocol summary:
+- Greedy decoding for some benchmarks (for example MATH500, Minerva, OlympiadBench).
+- Temperature sampling with 8 samples for AMC23, AIME24, and AIME25 style evaluations.
+
+Important note:
+If reviewer requires exact dataset split seed and exact row indices, they should be exported from the executed notebook run log/cell outputs and attached as an additional artifact.
