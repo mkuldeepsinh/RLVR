@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# models
+*.safetensors
+*.bin
+DAPOResults/
+
+# notebooks checkpoints
+.ipynb_checkpoints/
+
+# large files
+*.pdf
